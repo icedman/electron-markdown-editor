@@ -13,13 +13,22 @@ function sendAction(action) {
 	win.webContents.send(action);
 }
 
-
 const template = [
    {
       
 
     label: 'File',
     submenu: [
+      {
+        label: 'New File',
+        click: function(item, focusedWindow) {
+          //if (focusedWindow) {
+            newFile();
+    //}
+        },
+        accelerator: 'CmdOrCtrl+N',
+        role: 'new'
+      },
       {
         label: 'Open',
         click: function(item, focusedWindow) {
@@ -51,6 +60,27 @@ const template = [
         accelerator: 'CmdOrCtrl+Shift+S',
         role: 'save-as'
       }, 
+      {
+        type: 'separator'
+      },
+      {
+        label: 'Export HTML',
+        click: function(item, focusedWindow) {
+          //if (focusedWindow)
+            saveHTML(true);
+        },
+        accelerator: 'Shift+CmdOrCtrl+M',
+        role: 'save-as-html'
+      },
+      {
+        label: 'Export PDF',
+        click: function(item, focusedWindow) {
+          //if (focusedWindow)
+            savePDF(true);
+        },
+        accelerator: 'Shift+CmdOrCtrl+P',
+        role: 'save-as-pdf'
+      }
       
     ]
   }, 

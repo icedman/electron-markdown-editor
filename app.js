@@ -9,20 +9,19 @@ var readFile = null;
 
 // require('electron-debug')({showDevTools: true});
 
-process.argv.forEach(function (val, index, array) {
-
-   if (index == 2) {
-       readFile = val;
-   } else {
-       readfile = null;
-   }
-});
+try {
+    readFile = process.argv[process.argv.length-1];
+} catch(e) {
+    //
+}
 
 function createWindow() {
     
     var options = {
             width: 800,
             height: 600,
+            minHeight: 400,
+            minWidth: 350,
             icon: 'assets/icon.png',
             javascript : false
         };
@@ -43,6 +42,8 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null
+
+        app.quit();
     });
         
     //mainWindow.maximize - just to test

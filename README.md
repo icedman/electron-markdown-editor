@@ -1,3 +1,5 @@
+This fork adds HTML & PDF export for macOS.
+
 # Electron markdown editor
 
 ## Screenshot

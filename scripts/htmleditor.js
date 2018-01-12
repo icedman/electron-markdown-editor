@@ -33,6 +33,8 @@
                 mode: 'htmlmixed', 
                 lineWrapping: true, 
                 dragDrop: false, 
+                theme: 'monokai',
+                lineNumbers:true,
                 autoCloseTags: true, 
                 matchTags: true, 
                 autoCloseBrackets: true, 
@@ -44,7 +46,7 @@
                     completionSingle:false
                 } 
             },
-            toolbar      : [ 'bold', 'italic', 'strike', 'link', 'image', 'video', 'file', 'blockquote', 'listUl', 'listOl', 'table' ],
+            xxtoolbar      : [ 'bold', 'italic', 'strike', 'link', 'image', 'video', 'file', 'blockquote', 'listUl', 'listOl', 'table' ],
             lblPreview   : 'Preview',
             lblCodeview  : 'HTML',
             lblMarkedview: 'Markdown'
@@ -102,7 +104,7 @@
             
             this.preview.container = this.preview;
             
-            UI.$win.on('resize load', UI.Utils.debounce(function() { $this.fit(); }, 200));
+            UI.$win.on('resize load', UI.Utils.debounce(function() { $this.fit(); }, 50));
 
             var previewContainer = $this.preview.parent(),
                 codeContent      = this.code.find('.CodeMirror-sizer'),

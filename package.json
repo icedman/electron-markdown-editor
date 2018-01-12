@@ -1,6 +1,6 @@
 {
-  "name": "electron-markdown-editor",
-  "productName": "ElectronMarkdownEditor",
+  "name": "markdown",
+  "productName": "Markdown Editor",
   "version": "2.1.6",
   "electronVersion": "1.7.8",
   "description": "A markdown editor built with electron, uikit, and markdown-it",
@@ -21,6 +21,12 @@
     "build:osx": "electron-packager . $npm_package_productName --out=dist --ignore='^/dist$' --overwrite --prune --asar --arch=all --platform=darwin --icon=./resources/icon.icns --version=$npm_package_electronVersion --app-version=$npm_package_version",
     "build:win": "electron-packager . $npm_package_productName --out=dist --arch=all --platform=win32 --ignore='^/dist$' --prune --asar --overwrite --icon=./resources/icon.ico --version=$npm_package_electronVersion --app-version=$npm_package_version",
     "build:linux": "electron-packager . $npm_package_productName --out=dist --arch=x64 --platform=linux --ignore='^/dist$' --prune --asar --overwrite --icon=./resources/icon.png --version=$npm_package_electronVersion --app-version=$npm_package_version"
+  },
+  "build": {
+    "extraResources": [
+      "public/welcome.md",
+      "public/*.css"
+    ]
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,10 @@
 const {dialog} = require('electron').remote
 const fs = require('fs');
+const exec = window.require('child_process').exec;
 const isDefined = require('is-defined-eval');
+
+const isDev = window.require('electron-is-dev');
+const path = window.require('path');
 
 // Shell var a const in the main process. 
 // This is the rederer prodcess - so it is ok. 
@@ -88,15 +92,35 @@ function readMarkdownFile(fileName) {
         var editor = $('.CodeMirror')[0].CodeMirror;
         editor.setValue(data);
         editor.refresh();
+        /*
         UIkit.notify({
             message: 'File opened',
             status: 'info',
             timeout: 2000,
             pos: 'bottom-left'
         });
+        */
         store.currentFile = fileName;
+        setWindowTitle(fileName);
         return true;
     });
+}
+
+function setWindowTitle(title) {
+    var t = `<title>${title}</title>`;
+    document.querySelector('title').outerHTML = t;
+}
+
+function newFile() {
+    try {
+        var editor = $('.CodeMirror')[0].CodeMirror;
+        editor.setValue('');
+        editor.refresh();
+        store.currentFile = undefined;
+        setWindowTitle('Untitled');
+    } catch(e) {
+        
+    }
 }
 
 function openFile() {
@@ -109,12 +133,55 @@ function openFile() {
 
         var fileName = fileNames[0];
         readMarkdownFile(fileName);
-
     });
 }
 
+function readFile(filename) {
+    // const fullpath = path.join((isDev ? './resources' : window.process.resourcesPath), filename);
+    return fs.readFileSync(filename).toString();    
+}
+
+function saveHTML(open) {
+    if (store.currentFile == undefined) {
+        return saveFile();
+    }
+
+    var html = document.querySelector('.uk-htmleditor-preview').innerHTML;
+    var filename = store.currentFile + '.html';
+
+    const githubcss = this.readFile('./github-markdown.css');
+    const highlight = this.readFile('./github-gist-highlight.css');
+    const style = `<style>${githubcss} \n\n\n ${highlight}</style>`;
+    const content = `<html><head>${style}</head><article class="markdown-body">${html}</article></html>`;
+
+    fs.writeFileSync(filename, content, console.log);
+
+    if (open) {
+      var cmd = `open "${filename}"`;
+      exec(cmd);
+    }
+}
+
+function savePDF(open) {
+    if (store.currentFile == undefined) {
+        return saveFile();
+    }
+    saveHTML();
+
+    var filename = store.currentFile;
+    var html = filename + '.html';
+    var pdf = filename + '.pdf';
+
+    var cmdOpen = '';
+    if (open) {
+      cmdOpen = `&& open "${pdf}"`;
+    }
+    var cmd = `cupsfilter "${html}" >> "${pdf}" ${cmdOpen}`;
+    exec(cmd);
+}
+
 function saveMarkdownFile(fileName, data) {
-    fs.writeFile(fileName, data, function (err) {
+    fs.writeFileSync(fileName, data, function (err) {
         if (err) {
             store.currentFile = null;
             UIkit.notify({
@@ -127,12 +194,16 @@ function saveMarkdownFile(fileName, data) {
         }
 
         store.currentFile = fileName;
+        /*
         UIkit.notify({
             message: 'Saved file ' + fileName,
             status: 'info',
             timeout: 2000,
             pos: 'bottom-left'
         });
+        */
+
+        setWindowTitle(fileName);
         return true;
     });
 }

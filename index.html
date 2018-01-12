@@ -20,7 +20,7 @@
         </script>
 
         <!-- We use uikit and the uikit components: notify, htmleditor
-          -- The htmleditor is a modification and is loaded later ... -->
+            The htmleditor is a modification and is loaded later ... -->
 
         <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.css" />
         <link rel="stylesheet" href="node_modules/uikit/dist/css/components/notify.css" />
@@ -30,6 +30,7 @@
         <script src="node_modules/uikit/dist/js/components/notify.js"></script>
 
         <link rel="stylesheet" href="node_modules/codemirror/lib/codemirror.css">
+        <link rel="stylesheet" href="node_modules/codemirror/theme/monokai.css">
         
         <script src="node_modules/codemirror/lib/codemirror.js"></script>
         <script src="node_modules/codemirror/mode/markdown/markdown.js"></script>
@@ -51,6 +52,7 @@
         </script>
 
         <link rel="stylesheet" href="node_modules/highlightjs/styles/default.css">
+        <!-- <link rel="stylesheet" href="node_modules/highlightjs/styles/monokai.css"> -->
 
         <script src ="node_modules/markdown-table-template/dist/mdtable.js"></script> 
 
@@ -73,6 +75,18 @@
             }
 
         </script>
+
+        <style>
+        .uk-htmleditor-navbar {
+            display: none;
+        }
+        .uk-htmleditor-fullscreen .uk-htmleditor-content {
+            top: 0px;
+        }
+        .CodeMirror-linenumber.CodeMirror-gutter-elt {
+            color: #505050;
+        }
+        </style>
     </head>
     <body>
         
@@ -115,7 +129,7 @@
             <textarea data-uk-htmleditor="{
                 mode:'split', 
                 maxsplitsize:800, 
-                markdown:true, 
+                markdown:true,
                 lblPreview: 'Preview', 
                 lblCodeview: 'Markdown'
                 }"></textarea>
